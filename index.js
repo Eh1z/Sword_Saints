@@ -19,6 +19,7 @@ class Sprite {
         this.height    = 100
         this.width     = 50
         this.colour    = colour
+        this.health    = 100
          
         this.isAttacking
         this.attackBox = {
@@ -149,6 +150,33 @@ function swordHit({ sword1, sword2 }){
     )
 }
 
+function determineWinner({ player, enemy }){
+    if( player.health === enemy.health){
+        document.querySelector('#displayText').innerHTML = 'You were evenly matched in battle'
+    } else if ( player.health > enemy.health ){
+        document.querySelector('#displayText').innerHTML = 'Player 1 Wins'
+    } else if ( player.health < enemy.health ){
+        document.querySelector('#displayText').innerHTML = 'Player 2 Wins'
+    }
+}
+
+//Game Timer
+let timer = 90
+function decreaseTimer()  { 
+    setTimeout(decreaseTimer, 1000)
+    if (timer > 0) {
+        timer--
+        document.querySelector('#timer').innerHTML = timer
+    }
+
+    if (timer === 0){
+        document.querySelector('#displayText').style.display = 'flex'
+        determineWinner({ player, enemy })
+    }
+}
+
+decreaseTimer()
+
 //Animations
 function animate() {
     window.requestAnimationFrame(animate)
@@ -187,6 +215,8 @@ function animate() {
         player.isAttacking)
         {
             player.isAttacking = false
+            enemy.health -= 10
+            document.querySelector('#enemyHealth').style.width = enemy.health + '%'
             console.log('Oof, that has to hurt')
     }
 
@@ -198,7 +228,14 @@ function animate() {
         enemy.isAttacking)
         {
             enemy.isAttacking = false
+            player.health -= 10
+            document.querySelector('#playerHealth').style.width = player.health + '%'
             console.log('Take that, puny hero')
+    }
+
+    //end game based on amount of health
+    if (enemy.health <= 0 || player.health <= 0){
+        determineWinner({ player, enemy })
     }
 }
 
