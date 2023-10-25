@@ -17,7 +17,7 @@ class World {
 
     }
 
-    //Daws the game's background and decorational assets
+    //Draws the game's background and decorational assets
     draw(){    
         c.drawImage( 
             this.image,
@@ -66,7 +66,8 @@ class Fighter extends World {
         imageSrc, 
         scale = 1, 
         maxFrames = 1,
-        offset = {x:0, y:0}  
+        offset = {x:0, y:0},
+        sprites  
     }) {
         super({
             position,
@@ -83,6 +84,13 @@ class Fighter extends World {
         this.width     = 50
         this.colour    = colour
         this.health    = 100
+        this.sprites   = sprites
+
+        for ( const sprite in this.sprites){
+            sprites[sprite].image = new Image()
+            sprites[sprite].image.src = sprites[sprite].imageSrc
+        }
+        console.log(this.sprites)
 
         //framerate of players (fps implementation)
         this.currentFrame = 0
@@ -115,10 +123,11 @@ class Fighter extends World {
         this.position.x += this.velocity.x
         this.position.y += this.velocity.y
         
-
-        if (this.position.y + this.height + this.velocity.y + 95 >= canvas.height){
+        //Gravity Function
+        if (this.position.y + this.height + this.velocity.y >= canvas.height - 95){
             this.velocity.y = 0;
-        } else {
+        }
+        else {
             this.velocity.y += gravity
         }
     }
@@ -131,5 +140,36 @@ class Fighter extends World {
         }, 100);
     }
 
-
+    switchSprite(sprite){
+        switch (sprite) {
+            case 'idle':
+            if ( this.image != this.sprites.idle.image){
+                this.image = this.sprites.idle.image
+                this.maxFrames = this.sprites.idle.maxFrames
+                this.currentFrame = 0
+            }
+            break;
+            case 'run':
+            if ( this.image != this.sprites.run.image){
+                this.image = this.sprites.run.image
+                this.maxFrames = this.sprites.run.maxFrames
+                this.currentFrame = 0
+            }
+            break;
+            case 'jump':
+            if ( this.image != this.sprites.jump.image){
+                this.image = this.sprites.jump.image
+                this.maxFrames = this.sprites.jump.maxFrames
+                this.currentFrame = 0
+            }
+            break;
+            case 'fall':
+            if ( this.image != this.sprites.fall.image){
+                this.image = this.sprites.fall.image
+                this.maxFrames = this.sprites.fall.maxFrames
+                this.currentFrame = 0
+            }
+            break;
+    }
+    }
 }

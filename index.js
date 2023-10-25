@@ -31,20 +31,38 @@ const building = new World({
 //player sprite
 const player = new Fighter({
     position:{
-    x: 120,
-    y: 0
+    x: 124,
+    y: 100
     },
     velocity: {
         x: 0,
         y: 0
     },
-    offset: {
+    offset:{
         x: 215,
         y: 100
     },
     scale: 2.5,
+    imageSrc: './assets/tendo/Idle.png',
     maxFrames: 10,
-    imageSrc: './assets/tendo/Idle.png'
+    sprites:{
+        idle:{
+            maxFrames: 10,
+            imageSrc: './assets/tendo/Idle.png',
+        },
+        run:{
+            maxFrames: 8,
+            imageSrc: './assets/tendo/Run.png',
+        },
+        jump:{
+            maxFrames: 3,
+            imageSrc: './assets/tendo/Jump.png',
+        },
+        fall:{
+            maxFrames: 3,
+            imageSrc: './assets/tendo/Fall.png',
+        }
+    }
 })
 
 //Enemy sprite

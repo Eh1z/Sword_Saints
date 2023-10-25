@@ -55,7 +55,7 @@ window.addEventListener('keydown', (event) =>{
             enemy.lastKey = 'ArrowLeft'
         break;
         case 'ArrowUp':
-            enemy.velocity.y = -20
+            enemy.velocity.y = -10
             enemy.lastKey = 'ArrowUp'
         break;
         case 'Enter':
