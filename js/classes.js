@@ -1,6 +1,6 @@
 //Creates the enviroment of the game
 class World {
-    constructor({ position, imageSrc, scale = 1, maxFrames = 1, }) {
+    constructor({ position, imageSrc, scale = 1, maxFrames = 1, offset = {x:0, y:0} }) {
         this.position     = position
         this.height       = 150
         this.width        = 50
@@ -9,10 +9,11 @@ class World {
         this.scale        = scale
         this.maxFrames    = maxFrames
         this.currentFrame = 0
+        this.offset       = offset
 
         //framerate of game (fps implementation)
         this.framesElapsed = 0
-        this.framesHold    = 10
+        this.framesHold    = 5
 
     }
 
@@ -27,16 +28,14 @@ class World {
             this.image.width / this.maxFrames,
             this.image.height,
 
-            this.position.x, 
-            this.position.y, 
+            this.position.x - this.offset.x, 
+            this.position.y - this.offset.y, 
             (this.image.width / this.maxFrames) * this.scale, 
             this.image.height * this.scale
         ) 
     }
 
-    //
-    update(){
-        this.draw()
+    animateFrames(){
         this.framesElapsed++
         if ( this.framesElapsed % this.framesHold === 0){
             if (this.currentFrame < this.maxFrames - 1){
@@ -46,6 +45,12 @@ class World {
             }
         }
     }
+
+
+    update(){
+        this.draw()
+        this.animateFrames()
+    }
 }
 
 
@@ -53,15 +58,36 @@ class World {
 
 
 //Creates Players and Enemies using OOP
-class Fighter {
-    constructor({ position, velocity, colour = 'green', offset }) {
+class Fighter extends World {
+    constructor({ 
+        position, 
+        velocity, 
+        colour = 'green', 
+        imageSrc, 
+        scale = 1, 
+        maxFrames = 1,
+        offset = {x:0, y:0}  
+    }) {
+        super({
+            position,
+            scale,
+            imageSrc,
+            maxFrames,
+            offset
+        })
+
+
         this.lastKey 
-        this.position  = position
         this.velocity  = velocity
         this.height    = 100
         this.width     = 50
         this.colour    = colour
         this.health    = 100
+
+        //framerate of players (fps implementation)
+        this.currentFrame = 0
+        this.framesElapsed = 0
+        this.framesHold    = 10
          
         this.isAttacking
         this.attackBox = {
@@ -76,28 +102,12 @@ class Fighter {
         }
     }
 
-    //Creates the player pixels
-    draw(){
-
-        //Character Style
-        c.fillStyle = this.colour
-        c.fillRect(this.position.x, this.position.y, this.width, this.height)
-
-        //Sword Slash Style
-        if(this.isAttacking){
-            c.fillStyle = 'white'
-            c.fillRect(
-                this.attackBox.position.x, 
-                this.attackBox.position.y + 30, 
-                this.attackBox.width, 
-                this.attackBox.height
-            )
-        }        
-    }
+ 
 
     //Updates player and enemy locations
     update(){
         this.draw()
+        this.animateFrames()
         
         this.attackBox.position.x = this.position.x - this.attackBox.offset.x
         this.attackBox.position.y = this.position.y

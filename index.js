@@ -31,7 +31,7 @@ const building = new World({
 //player sprite
 const player = new Fighter({
     position:{
-    x: 24,
+    x: 120,
     y: 0
     },
     velocity: {
@@ -39,9 +39,12 @@ const player = new Fighter({
         y: 0
     },
     offset: {
-        x: 0,
-        y: 0
-    }
+        x: 215,
+        y: 100
+    },
+    scale: 2.5,
+    maxFrames: 10,
+    imageSrc: './assets/tendo/Idle.png'
 })
 
 //Enemy sprite

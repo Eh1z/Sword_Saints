@@ -6,7 +6,7 @@ function animate() {
     background.update()
     building.update()
     player.update()
-    enemy.update()
+    //enemy.update()
 
     player.velocity.x = 0
     enemy.velocity.x  = 0
