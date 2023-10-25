@@ -18,6 +18,16 @@ const background = new World({
     imageSrc: './assets/background.png'
 })
 
+const building = new World({
+    position: {
+        x: 640,
+        y: 160,
+    },
+    scale: 2.5,
+    maxFrames: 6,
+    imageSrc: './assets/shop.png'
+})
+
 //player sprite
 const player = new Fighter({
     position:{

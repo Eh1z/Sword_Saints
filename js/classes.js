@@ -1,25 +1,51 @@
 //Creates the enviroment of the game
 class World {
-    constructor({ position, imageSrc }) {
-        this.position  = position
-        this.height    = 150
-        this.width     = 50
-        this.image     = new Image()
-        this.image.src = imageSrc
+    constructor({ position, imageSrc, scale = 1, maxFrames = 1, }) {
+        this.position     = position
+        this.height       = 150
+        this.width        = 50
+        this.image        = new Image()
+        this.image.src    = imageSrc
+        this.scale        = scale
+        this.maxFrames    = maxFrames
+        this.currentFrame = 0
+
+        //framerate of game (fps implementation)
+        this.framesElapsed = 0
+        this.framesHold    = 10
 
     }
 
     //Daws the game's background and decorational assets
     draw(){    
-        c.drawImage( this.image, this.position.x, this.position.y ) 
+        c.drawImage( 
+            this.image,
+            
+            //Image cropping
+            this.currentFrame * ( this.image.width / this.maxFrames ),
+            0,
+            this.image.width / this.maxFrames,
+            this.image.height,
+
+            this.position.x, 
+            this.position.y, 
+            (this.image.width / this.maxFrames) * this.scale, 
+            this.image.height * this.scale
+        ) 
     }
 
     //
     update(){
         this.draw()
+        this.framesElapsed++
+        if ( this.framesElapsed % this.framesHold === 0){
+            if (this.currentFrame < this.maxFrames - 1){
+                this.currentFrame++  
+            } else {
+                this.currentFrame = 0
+            }
+        }
     }
-
-
 }
 
 

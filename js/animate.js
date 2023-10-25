@@ -4,6 +4,7 @@ function animate() {
     c.fillStyle = 'black'
     c.fillRect(0, 0, canvas.width, canvas.height)
     background.update()
+    building.update()
     player.update()
     enemy.update()
 
